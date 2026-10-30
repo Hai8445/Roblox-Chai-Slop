@@ -1,0 +1,10 @@
+PROJECT BRIEF (stable facts; verify numbers against the file)
+Game: Roblox job-roleplay about a chai stall ("Kadak Corner"), Pizza-Place style: brew chai, pick up an order, deliver to a house, earn coins, unlock zones, upgrade the kitchen. Theme: tea-estate neighbourhood; must stay clearly distinct from the real UK chain Chaiiwala (no logo, colours or menu names).
+
+ZONES (ZoneConfig): 1 Starter Streets (free, x1.0, 1-2 chais, weight 40) / 2 The Spice District (cost 10, x1.25, 1-3 chais, weight 30) / 3 Saffron Springs ($1,500, x3.0, 4-6, weight 15) / 4 The Royal Estates ($3,500, x4.5, 5-8, weight 10) / 5 The Darjeeling Heights ($7,500, x6.0, 6-10, weight 10, 12 mansions). The old Zone 3 was cancelled (archived). Houses 37, 38 and 39 are removed or archived for the stall and kitchen expansion. Doors are tagged "DeliveryDoor" with attributes ZoneId, HouseNumber, StreetName; AddressBook indexes them.
+
+ARCHITECTURE RULES: progression is PER PLAYER (Coins, KitchenLevel 1-3, unlocked zones, saved by SaveManager v2). Everything is server-authoritative; clients only request actions and show visuals. Kitchen stations for all tiers exist on the server for everyone; stations above a player's tier look locked on that player's client only. All payouts go through ReplicatedStorage.EconomyCalculator: payout = floor(base x zoneMult x (1 + sum of bonuses)). Hired workers, vehicles, pets and a tutorial come later and must be able to plug into the same functions, so keep logic in reusable server functions and keep UI as a thin layer that reads attributes or remotes.
+
+PROTECTED SCRIPTS (never edit directly, give before/after diffs): ChaiServer, ZoneConfig, AddressBook, SaveManager.
+
+CONVENTIONS: DRY_RUN = true by default, ChangeHistoryService undo, a batch attribute on everything you create, back up any script you replace into ServerStorage, nothing deleted (archive to ServerStorage), pre-flight asserts that abort on mismatch. Be concise: code blocks plus at most one line of explanation per script.
